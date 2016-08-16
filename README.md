@@ -1,7 +1,22 @@
 # kandrextensions
 Useful android extensions, for kotlin based projects
 
-Cursor: 
+## AsyncTask:
+    fun <T> Any.runAsyncTask(backgroundTask: () -> T?,
+                        uiCallback: (T?) -> Unit = {},
+                        errorHandler: (Throwable) -> Unit = { throw it}) {
+
+    helper method, which can be used for background work, and replace android asynctasks
+        This helper takes three callbacks and uses AsyncTask for beckground work, so, it must be called from the UI thread:
+
+        backgroundTask - will be executed in background thread, returns nullable result
+
+        uiCallback - will be executed in UI thread. Nullable result from background task will be passed to this callback
+
+        errorHandler - any caught error(exception) will be passed into this callback. In case of error, uiCallback will not be called. Raised exception will be passed as an argument
+
+
+## Cursor: 
     accessor functions, which return types, by column name
         fun Cursor.getBoolean(name: String): Boolean {
 
@@ -26,7 +41,7 @@ Cursor:
           val list = List<SomeDataObject> = c.asList{ SomeDataObject(it.getString("column")) }
           
   
-UI extensions:
+##UI extensions:
     fun View.setGone(gone: Boolean)
     fun View.setVisible(visible: Boolean)
     
