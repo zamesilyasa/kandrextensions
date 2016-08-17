@@ -21,7 +21,7 @@ class TestViewVisibility {
     }
 
     @Test
-    fun testSetGoneShouldSet_GONE_Visibility() {
+    fun setGone_Should_set_GONE_Visibility_flag() {
         val view: View = View(context)
 
         assertEquals(View.VISIBLE, view.visibility)
@@ -36,7 +36,7 @@ class TestViewVisibility {
     }
 
     @Test
-    fun testSetInvisibleShouldSet_INVISIBLE_Visibility() {
+    fun setInvisible_Should_set_INVISIBLE_Visibility_flag() {
         val view: View = View(context)
 
         assertEquals(View.VISIBLE, view.visibility)

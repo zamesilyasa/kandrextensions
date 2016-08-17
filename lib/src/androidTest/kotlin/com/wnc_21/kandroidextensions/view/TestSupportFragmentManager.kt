@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.view.View
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -16,7 +17,7 @@ import java.io.PrintWriter
 class TestSupportFragmentManager {
 
     @Test
-    fun testSupportFragmentManager_searchesForFragmentByTag() {
+    fun SupportFragmentManager_searchesForFragmentByTag() {
         val mgrWithFragment: FragmentManager = object: MockSupportFragmentManager() {
             override fun findFragmentByTag(tag: String?): Fragment? = Fragment()
         }
@@ -30,6 +31,35 @@ class TestSupportFragmentManager {
         }
 
         assertFalse(mgrWithoutFragment.isFragmentAdded("ANY"))
+    }
+
+    @Test
+    fun SupportFragmentManager_add_fragment_ifNot() {
+        var tag: String? = null
+
+        val tr = object: MockTransaction() {
+            override fun add(containerViewId: Int, fragment: Fragment?, trTag: String?): FragmentTransaction {
+                tag = trTag
+                return this
+            }
+        }
+
+        val fm = object: MockSupportFragmentManager() {
+
+            override fun findFragmentByTag(aTag: String?): Fragment? = if (tag == aTag) Fragment() else null
+
+            override fun beginTransaction(): FragmentTransaction {
+                return tr
+            }
+        }
+
+        assertFalse(fm.isFragmentAdded("TAG"))
+
+        assertTrue(fm.addIfNot("TAG", {it.add(1, Fragment(), "TAG")}))
+
+        assertTrue(fm.isFragmentAdded("TAG"))
+
+        assertFalse(fm.addIfNot("TAG", {it.add(1, Fragment(), "TAG")}))
     }
 }
 
@@ -112,6 +142,116 @@ abstract class MockSupportFragmentManager : FragmentManager() {
 
     override fun popBackStack(id: Int, flags: Int) {
         throw UnsupportedOperationException("Not mocked")
+    }
+}
+
+abstract class MockTransaction: FragmentTransaction() {
+    override fun setBreadCrumbShortTitle(res: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setBreadCrumbShortTitle(text: CharSequence?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun commit(): Int {
+        return 0
+    }
+
+    override fun add(fragment: Fragment?, tag: String?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun add(containerViewId: Int, fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun add(containerViewId: Int, fragment: Fragment?, tag: String?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hide(fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun replace(containerViewId: Int, fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun replace(containerViewId: Int, fragment: Fragment?, tag: String?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun detach(fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun commitAllowingStateLoss(): Int {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setCustomAnimations(enter: Int, exit: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setCustomAnimations(enter: Int, exit: Int, popEnter: Int, popExit: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addToBackStack(name: String?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun disallowAddToBackStack(): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setTransitionStyle(styleRes: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setTransition(transit: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun attach(fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun show(fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun isEmpty(): Boolean {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun remove(fragment: Fragment?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun isAddToBackStackAllowed(): Boolean {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addSharedElement(sharedElement: View?, name: String?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun commitNow() {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setBreadCrumbTitle(res: Int): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setBreadCrumbTitle(text: CharSequence?): FragmentTransaction {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun commitNowAllowingStateLoss() {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

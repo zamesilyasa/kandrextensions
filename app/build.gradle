@@ -27,6 +27,7 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile project(":lib")
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

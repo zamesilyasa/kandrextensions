@@ -8,6 +8,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.Closeable
 
 @RunWith(AndroidJUnit4::class)
 class TestAsList {
@@ -30,7 +31,7 @@ class TestAsList {
     }
 
     @Test
-    fun testCursorShouldBeWrappedWithList() {
+    fun Cursor_should_be_wrapped_with_list() {
         val cursorAsList: List<Entity> = cursor.asList(::entityMapper)
 
         assertEquals(cursor.count, list.size)
@@ -38,7 +39,7 @@ class TestAsList {
     }
 
     @Test
-    fun testCursorShouldBeConvertedToEmptyList_inCaseOfSize_0() {
+    fun Cursor_should_be_converted_to_emptylist_in_case_of_size_eq_0() {
         val cursor: Cursor = MatrixCursor(arrayOf("id"))
 
         val emptyList: List<Any> = cursor.asList { fail("Should not be called, because of empty cursor") }
@@ -47,7 +48,7 @@ class TestAsList {
     }
 
     @Test
-    fun testCursorContains() {
+    fun Test_cursor_contains() {
         val list = cursor.asList(::entityMapper)
 
         assertTrue(list.contains(Entity(1, "first")))
@@ -55,7 +56,7 @@ class TestAsList {
     }
 
     @Test
-    fun testCursorContainsAll() {
+    fun Test_cursor_containsAll() {
         val contains: List<Entity> = listOf(Entity(3, "third"), Entity(1, "first"))
         val notAll: List<Entity> = listOf(Entity(Integer.MAX_VALUE, "max"), Entity(1, "first"))
         val noneOfAll: List<Entity> = listOf(Entity(-1, "none"), Entity(-2, "off"), Entity(-3, "all"))
@@ -70,7 +71,7 @@ class TestAsList {
     }
 
     @Test
-    fun testIterationOverElements() {
+    fun Test_list_iteration() {
         val list: List<Entity> = cursor.asList(::entityMapper)
         val iterator = list.iterator()
 
@@ -87,7 +88,7 @@ class TestAsList {
     }
 
     @Test
-    fun testIndexOf() {
+    fun Test_index_of_operations() {
         val cursor = MatrixCursor(arrayOf("_1"))
 
         cursor.use {
@@ -106,12 +107,28 @@ class TestAsList {
     }
 
     @Test(expected = IndexOutOfBoundsException::class)
-    fun listShouldRaiseIndexOfBoundException() {
+    fun List_should_raise_index_of_bound_exception() {
         val c: MatrixCursor = MatrixCursor(arrayOf("_"))
 
         val list:List<String> = c.asList { c.getString(0) }
 
         list[0]
+    }
+
+    @Test
+    fun Cursor_should_be_closed_after_list_close_method_call() {
+        val cursor = MatrixCursor(arrayOf("_1"))
+        cursor.addRow(arrayOf("first"))
+
+        assertTrue(cursor.moveToFirst())
+
+        val list = cursor.asList{it.getString(0)}
+
+        assertFalse(cursor.isClosed)
+
+        list.close()
+
+        assertTrue(cursor.isClosed)
     }
 }
 

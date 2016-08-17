@@ -2,9 +2,9 @@
 Useful android extensions, for kotlin based projects
 
 ## AsyncTask:
-    fun <T> Any.runAsyncTask(backgroundTask: () -> T?,
-                        uiCallback: (T?) -> Unit = {},
-                        errorHandler: (Throwable) -> Unit = { throw it}) {
+    `fun <T> Any.runAsyncTask(backgroundTask: () -> T?,
+                              uiCallback: (T?) -> Unit = {},
+                              errorHandler: (Throwable) -> Unit = { throw it})`
 
     helper method, which can be used for background work, and replace android asynctasks
         This helper takes three callbacks and uses AsyncTask for beckground work, so, it must be called from the UI thread:
@@ -18,31 +18,36 @@ Useful android extensions, for kotlin based projects
 
 ## Cursor: 
     accessor functions, which return types, by column name
-        fun Cursor.getBoolean(name: String): Boolean {
-
-          fun Cursor.getString(name: String): String 
-          fun Cursor.getNullableString(name: String): String?
-          fun Cursor.getInt(name: String): Int 
-          fun Cursor.getNullableInt(name: String): Int?
-          fun Cursor.getLong(name: String): Long
-          fun Cursor.getNullableLong(name: String): Long?
-          fun Cursor.getDouble(name: String): Double
-          fun Cursor.getNullableDouble(name: String): Double?
-          fun Cursor.getFloat(name: String): Float
-          fun Cursor.getNullableFloat(name: String): Float?
-          fun Cursor.getBoolean(name: String): Boolean
-          fun Cursor.getNullableBoolean(name: String): Boolean?
+        
+        `fun Cursor.getBoolean(name: String): Boolean
+        fun Cursor.getString(name: String): String 
+        fun Cursor.getNullableString(name: String): String?
+        fun Cursor.getInt(name: String): Int 
+        fun Cursor.getNullableInt(name: String): Int?
+        fun Cursor.getLong(name: String): Long
+        fun Cursor.getNullableLong(name: String): Long?
+        fun Cursor.getDouble(name: String): Double
+        fun Cursor.getNullableDouble(name: String): Double?
+        fun Cursor.getFloat(name: String): Float
+        fun Cursor.getNullableFloat(name: String): Float?
+        fun Cursor.getBoolean(name: String): Boolean
+        fun Cursor.getNullableBoolean(name: String): Boolean?`
           
-    fun <T> Cursor.asList(mapper: (c: Cursor) -> T): CloseableList<T> - wraps cursror with closeable list instance, to access cursor as list
+     `fun <T> Cursor.asList(mapper: (c: Cursor) -> T): CloseableList<T>` - wraps cursror with closeable list instance, to access cursor as list
           
           example:
           
-          val c = MatrixCursor("column")
-          val list = List<SomeDataObject> = c.asList{ SomeDataObject(it.getString("column")) }
+          `val c = MatrixCursor("column")
+          val list = List<SomeDataObject> = c.asList{ SomeDataObject(it.getString("column")) }`
           
   
 ##UI extensions:
-    fun View.setGone(gone: Boolean)
-    fun View.setVisible(visible: Boolean)
+    `fun View.setGone(gone: Boolean)`
+    `fun View.setVisible(visible: Boolean)`
     
-    fun FragmentManager.isFragmentAdded(tag: String) : Boolean
+    `fun FragmentManager.isFragmentAdded(tag: String) : Boolean
+    fun FragmentManager.addIfNot(tag: String,  transaction: (FragmentTransaction) -> Unit) : Boolean`
+     
+     Searches fragment by tag. If fragment is not found, starts a new transaction and passes it to the callback. 
+     Commits transaction after callback is executed
+    
