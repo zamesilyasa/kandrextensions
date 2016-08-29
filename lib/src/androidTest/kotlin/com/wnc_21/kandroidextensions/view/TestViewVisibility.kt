@@ -4,9 +4,7 @@ import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
-import com.wnc_21.kandroidextensions.view.setGone
-import com.wnc_21.kandroidextensions.view.setVisible
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,5 +46,24 @@ class TestViewVisibility {
         view.setVisible(true)
 
         assertEquals(View.VISIBLE, view.visibility)
+    }
+
+    @Test
+    fun isVisible_Should_return_visible_state_bool() {
+        val view: View = View(context)
+
+        assertTrue(view.isVisible())
+
+        view.setVisible(false)
+        assertFalse(view.isVisible())
+
+        view.setVisible(true)
+        assertTrue(view.isVisible())
+
+        view.setGone(true)
+        assertFalse(view.isVisible())
+
+        view.setGone(false)
+        assertTrue(view.isVisible())
     }
 }
