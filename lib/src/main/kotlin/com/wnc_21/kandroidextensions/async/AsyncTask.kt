@@ -2,7 +2,7 @@ package com.wnc_21.kandroidextensions.async
 
 import android.os.AsyncTask
 
-fun <T> Any.runAsyncTask(backgroundTask: () -> T?,
+fun <T> runAsyncTask(backgroundTask: () -> T?,
                     uiCallback: (T?) -> Unit = {},
                     errorHandler: (Throwable) -> Unit = { throw it}) {
 

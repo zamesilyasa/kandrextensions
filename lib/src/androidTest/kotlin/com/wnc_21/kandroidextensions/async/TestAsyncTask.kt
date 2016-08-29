@@ -29,7 +29,6 @@ class TestAsyncTask {
                 assertNotEquals(Looper.myLooper(), Looper.getMainLooper())
                 countDownLatch.countDown()
             })
-
         }
 
         assertTrue(countDownLatch.await(1, TimeUnit.SECONDS))

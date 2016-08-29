@@ -2,7 +2,7 @@
 Useful android extensions, for kotlin based projects
 
 ## AsyncTask:
-    fun <T> Any.runAsyncTask(backgroundTask: () -> T?,
+    fun <T> runAsyncTask(backgroundTask: () -> T?,
                               uiCallback: (T?) -> Unit = {},
                               errorHandler: (Throwable) -> Unit = { throw it})
 
