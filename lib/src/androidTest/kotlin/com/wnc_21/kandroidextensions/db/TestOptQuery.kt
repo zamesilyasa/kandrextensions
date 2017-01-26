@@ -6,10 +6,11 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.wnc_21.kandroidextensions.testutils.createDatabase
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -22,7 +23,7 @@ class TestOptQuery {
     @Before
     fun runBeforeEachTest() {
         context = InstrumentationRegistry.getTargetContext()
-        helper = DatabaseHelper(context)
+        helper = context.createDatabase()
 
         addUsersTable(helper.writableDatabase)
     }
@@ -132,16 +133,4 @@ class TestOptQuery {
             db.endTransaction()
         }
     }
-}
-
-private class DatabaseHelper(context: Context): SQLiteOpenHelper(context, "test.db", null, 1) {
-
-    override fun onCreate(db: SQLiteDatabase) {
-
-    }
-
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        throw UnsupportedOperationException("not implemented")
-    }
-
 }
