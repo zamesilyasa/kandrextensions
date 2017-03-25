@@ -36,6 +36,15 @@ class TestAsFinalList {
     }
 
     @Test
+    fun Cursor_should_be_closed_if_it_is_empty() {
+        val c: MatrixCursor = MatrixCursor(arrayOf("test_column"))
+        val emptyList = c.asFinalList { c.getString(0) }
+
+        Assert.assertTrue(emptyList.isEmpty())
+        Assert.assertTrue(c.isClosed)
+    }
+
+    @Test
     fun Cursor_should_NOT_be_closed_if_requested() {
         val c: MatrixCursor = MatrixCursor(arrayOf("test_column"))
 

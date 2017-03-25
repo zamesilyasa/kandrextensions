@@ -114,27 +114,31 @@ fun <T> Cursor.asList(mapper: (c: Cursor) -> T): CloseableList<T> {
 }
 
 fun <T> Cursor.asFinalList(closeCursor: Boolean = true, mapper: (c: Cursor) -> T): List<T> {
-    if (!moveToFirst()) {
-        return listOf()
-    }
 
-    var position = 0
-    val result: MutableList<T> = mutableListOf()
-    do {
-        if (position != getPosition()) {
-            throw ConcurrentNavigationException()
+    try {
+
+        if (!moveToFirst()) {
+            return listOf()
         }
 
-        result.add(mapper(this))
+        var position = 0
+        val result: MutableList<T> = mutableListOf()
+        do {
+            if (position != getPosition()) {
+                throw ConcurrentNavigationException()
+            }
 
-        position++
-    } while (moveToNext())
+            result.add(mapper(this))
 
-    if (closeCursor) {
-        close()
+            position++
+        } while (moveToNext())
+
+        return result
+    } finally {
+        if (closeCursor) {
+            close()
+        }
     }
-
-    return result
 }
 
 abstract class CloseableList<out T>: List<T>, Closeable
