@@ -17,6 +17,20 @@ Useful android extensions, for kotlin based projects
 
 
 ## Database
+    SQLiteDatabase.runTransaction()
+        allows write code in transactions without worrying about transaction openning and closing.
+        example:
+            db.runTransaction{db -> 
+                db.rawSql("CREATE TABLE TEST (TEST_COLUMN INTEGER PRIMARY KEY))
+            }
+            
+            
+    SQLiteDatabase.count()
+        return table count
+        example:
+            db.coun("test_table", "user_id > ?", arrayOf("1"))
+            where required is only table name
+
     SQLiteDatabase.optQuery()
         allows optionally pass arguments to database queries
          example: 
@@ -42,12 +56,14 @@ Useful android extensions, for kotlin based projects
         fun Cursor.getBoolean(name: String): Boolean
         fun Cursor.getNullableBoolean(name: String): Boolean?
           
-    fun <T> Cursor.asList(mapper: (c: Cursor) -> T): CloseableList<T> - wraps cursror with closeable list instance, to access cursor as list
+    <T> Cursor.asList(mapper: (c: Cursor) -> T): CloseableList<T> - wraps cursror with closeable list instance, to access cursor as list
           
           example:
           
           val c = MatrixCursor("column")
           val list = List<SomeDataObject> = c.asList{ SomeDataObject(it.getString("column")) }
+          
+    Cursor.asFinalList() converts cursor to a list instance, takes converter function as an argument. Closes cursor by default
           
   
 ##UI extensions:
